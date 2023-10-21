@@ -12,7 +12,7 @@ class PseudoNameService
 {
   public function getAll(): array
   {
-    return PseudoName::orderBy('name', 'asc')->get(['id', 'name'])->toArray();
+    return PseudoName::orderBy('name', 'asc')->get(['id', 'name', 'gender'])->toArray();
   }
 
   public function getAvailable(string $gender): array
