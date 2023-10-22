@@ -15,16 +15,14 @@ class PseudoNameService
     return PseudoName::orderBy('name', 'asc')->get(['id', 'name', 'gender'])->toArray();
   }
 
-  public function getAvailable(string $gender): array
+  public function getAvailable(): array
   {
-    return DB::table('pseudo_names')
-      ->select('id', 'name')
-      ->whereNotIn('id', function (Builder $query) {
+    return PseudoName
+      ::whereNotIn('id', function (Builder $query) {
         $query->select('pseudo_name_id')->from('users');
       })
-      ->where('gender', $gender)
       ->orderBy('name', 'asc')
-      ->get()
+      ->get(['id', 'name', 'gender'])
       ->toArray();
   }
 

@@ -26,7 +26,7 @@ class RegisteredUserController extends Controller
   public function create(PseudoNameService $pseudoNameService): Response
   {
     return Inertia::render('Auth/Register', [
-      'pseudoNames' => $pseudoNameService->getAll(),
+      'availablePseudoNames' => $pseudoNameService->getAvailable(),
     ]);
   }
 

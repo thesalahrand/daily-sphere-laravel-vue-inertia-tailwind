@@ -8,7 +8,7 @@ import { Head, Link, useForm } from "@inertiajs/vue3";
 import { computed } from "vue";
 
 const props = defineProps({
-  pseudoNames: {
+  availablePseudoNames: {
     type: Array,
   },
 });
@@ -20,8 +20,8 @@ const form = useForm({
   password_confirmation: "",
 });
 
-const filteredPseudoNames = computed(() => {
-  return props.pseudoNames.filter(
+const availableFilteredPseudoNames = computed(() => {
+  return props.availablePseudoNames.filter(
     (pseudoName) => pseudoName.gender === form.gender
   );
 });
@@ -110,7 +110,7 @@ const submit = () => {
         >
           <option selected value="">-- Choose an option --</option>
           <option
-            v-for="pseudoName in filteredPseudoNames"
+            v-for="pseudoName in availableFilteredPseudoNames"
             :key="pseudoName.id"
             :value="pseudoName.id"
           >
