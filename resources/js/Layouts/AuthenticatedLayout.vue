@@ -7,6 +7,7 @@ import NavLink from "@/Components/NavLink.vue";
 import ResponsiveNavLink from "@/Components/ResponsiveNavLink.vue";
 import { Link } from "@inertiajs/vue3";
 import { onMounted } from "vue";
+import IconMenu from "@/Components/icons/IconMenu.vue";
 
 // import {
 //   initAccordions,
@@ -48,7 +49,8 @@ const showingNavigationDropdown = ref(false);
               class="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
             >
               <span class="sr-only">Open sidebar</span>
-              <svg
+              <IconMenu classes="w-6 h-6"></IconMenu>
+              <!-- <svg
                 class="w-6 h-6"
                 aria-hidden="true"
                 fill="currentColor"
@@ -60,7 +62,7 @@ const showingNavigationDropdown = ref(false);
                   fill-rule="evenodd"
                   d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"
                 ></path>
-              </svg>
+              </svg> -->
             </button>
             <Link href="/" class="flex items-center space-x-2">
               <ApplicationLogo
@@ -74,9 +76,10 @@ const showingNavigationDropdown = ref(false);
           <div class="flex items-center">
             <div class="flex items-center ml-3">
               <div class="flex items-center">
-                <span class="font-medium text-gray-900 dark:text-white mr-2">{{
-                  $page.props.auth.user.pseudo_name
-                }}</span>
+                <span
+                  class="font-medium text-blue-600 dark:text-blue-500 mr-3"
+                  >{{ $page.props.auth.user.pseudo_name }}</span
+                >
                 <button
                   type="button"
                   class="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
@@ -109,7 +112,7 @@ const showingNavigationDropdown = ref(false);
                       :href="route('logout')"
                       method="post"
                       as="button"
-                      class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
+                      class="w-full text-left block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
                       role="menuitem"
                       >Sign out</Link
                     >
@@ -379,8 +382,8 @@ const showingNavigationDropdown = ref(false);
           class="pt-4 mt-4 space-y-2 font-medium border-t border-gray-200 dark:border-gray-700"
         >
           <li>
-            <a
-              href="#"
+            <Link
+              :href="route('attributions')"
               class="flex items-center p-2 text-gray-900 transition duration-75 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group"
             >
               <img
@@ -389,7 +392,7 @@ const showingNavigationDropdown = ref(false);
                 alt="attributions"
               />
               <span class="ml-4">Attributions</span>
-            </a>
+            </Link>
           </li>
         </ul>
       </div>
@@ -398,10 +401,5 @@ const showingNavigationDropdown = ref(false);
     <div class="p-4 sm:ml-64 mt-14">
       <slot />
     </div>
-    <!-- <a href="https://www.flaticon.com/free-icons/prayer" title="prayer icons">Prayer icons created by amonrat rungreangfangsai - Flaticon</a> -->
-    <!-- <a href="https://www.flaticon.com/free-icons/budget" title="budget icons">Budget icons created by Freepik - Flaticon</a> -->
-    <!-- <a href="https://www.flaticon.com/free-icons/ramadan" title="ramadan icons">Ramadan icons created by Freepik - Flaticon</a> -->
-    <!-- <a href="https://www.flaticon.com/free-icons/url" title="url icons">Url icons created by Karacis - Flaticon</a> -->
-    <!-- <a href="https://www.flaticon.com/free-icons/attribute" title="attribute icons">Attribute icons created by alexdndz - Flaticon</a> -->
   </div>
 </template>
