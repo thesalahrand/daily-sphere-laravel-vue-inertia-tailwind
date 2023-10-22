@@ -12,7 +12,7 @@ import { Link } from "@inertiajs/vue3";
         <ApplicationLogo
           class="w-9 h-9 fill-current text-gray-900 dark:text-white"
         />
-        <h1 class="text-xl font-semibold text-gray-900 dark:text-white">
+        <h1 class="text-xl font-bold text-gray-900 dark:text-white">
           Daily Sphere
         </h1>
       </Link>
