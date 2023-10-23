@@ -38,6 +38,7 @@ class HandleInertiaRequests extends Middleware
           'pseudo_name' => $request->user()->pseudoName->name,
           'profile_pic' => $request->user()->profile_pic,
           'gender' => $request->user()->pseudoName->gender,
+          'joined_in' => $request->user()->created_at->format('M d, Y'),
         ] : null,
       ],
       'ziggy' => fn() => [

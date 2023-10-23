@@ -43,26 +43,35 @@ const submit = () => {
 
 <template>
   <section>
-    <form @submit.prevent="submit" class="max-w-xl space-y-6">
+    <div class="space-y-4 mb-6">
       <h5 class="text-xl font-medium text-gray-900 dark:text-white">
         Profile Information
       </h5>
 
-      <div>
-        <label
-          for="gender"
-          class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-          >Your gender</label
-        >
-        <input
-          type="text"
-          id="gender"
-          class="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          :value="user.gender"
-          disabled
+      <div class="flex items-center space-x-4">
+        <img
+          class="w-36 h-36 rounded-full object-cover"
+          :src="
+            $page.props.auth.user.profile_pic
+              ? `/storage/${$page.props.auth.user.profile_pic}`
+              : `/images/${$page.props.auth.user.gender.toLowerCase()}.png`
+          "
+          alt="profile-pic"
         />
+        <div class="space-y-1">
+          <h4 class="text-base font-semibold text-gray-900 dark:text-white">
+            {{ $page.props.auth.user.pseudo_name }}
+          </h4>
+          <p class="text-sm text-gray-500 dark:text-gray-400">
+            {{ $page.props.auth.user.gender }}
+          </p>
+          <p class="text-sm text-gray-500 dark:text-gray-400">
+            Joined in {{ $page.props.auth.user.joined_in }}
+          </p>
+        </div>
       </div>
-
+    </div>
+    <form @submit.prevent="submit" class="max-w-xl space-y-6">
       <div>
         <label
           for="pseudo_name_id"
