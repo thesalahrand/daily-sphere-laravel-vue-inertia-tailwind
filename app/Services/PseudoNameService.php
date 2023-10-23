@@ -25,14 +25,4 @@ class PseudoNameService
       ->get(['id', 'name', 'gender'])
       ->toArray();
   }
-
-  public function getAvailableWithOwn(User $user): array
-  {
-    return [
-      (object) [
-        'id' => $user->pseudo_name_id,
-        'name' => $user->pseudoName->name
-      ]
-    ] + $this->getAvailable($user->pseudoName->gender);
-  }
 }

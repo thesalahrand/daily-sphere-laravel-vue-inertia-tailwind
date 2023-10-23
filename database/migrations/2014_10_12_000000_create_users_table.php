@@ -15,6 +15,7 @@ return new class extends Migration {
       $table->foreignId('pseudo_name_id')->nullable()->constrained()->nullOnDelete();
       $table->string('password');
       $table->rememberToken();
+      $table->string('profile_pic')->nullable();
       $table->timestamps();
       $table->softDeletes();
     });

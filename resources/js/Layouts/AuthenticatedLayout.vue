@@ -88,9 +88,13 @@ const showingNavigationDropdown = ref(false);
                 >
                   <span class="sr-only">Open user menu</span>
                   <img
-                    class="w-8 h-8 rounded-full"
-                    src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
-                    alt="user photo"
+                    class="w-8 h-8 rounded-full object-cover"
+                    :src="
+                      $page.props.auth.user.profile_pic
+                        ? `/storage/${$page.props.auth.user.profile_pic}`
+                        : `/images/${$page.props.auth.user.gender.toLowerCase()}.png`
+                    "
+                    alt="profile pic"
                   />
                 </button>
               </div>
