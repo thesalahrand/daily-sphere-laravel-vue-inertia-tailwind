@@ -15,9 +15,12 @@ class TinyUrlController extends Controller
   /**
    * Display a listing of the resource.
    */
-  public function index()
+  public function index(Request $request, TinyUrlService $tinyUrlService)
   {
-    echo "Hello";
+    $tinyUrls = $tinyUrlService->index($request->user());
+    return Inertia::render("Trackers/TinyUrl/Index", [
+      'tinyUrls' => $tinyUrls
+    ]);
   }
 
   /**

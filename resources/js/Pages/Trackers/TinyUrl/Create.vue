@@ -5,7 +5,6 @@ import IconChevronRight from "@/Components/icons/IconChevronRight.vue";
 import InputError from "@/Components/InputError.vue";
 import IconArrowPath from "@/Components/icons/IconArrowPath.vue";
 import CopyToClipboard from "@/Components/CopyToClipboard.vue";
-import { ref } from "vue";
 
 const getRandomStr = (length) => {
   let randomStr = "";
@@ -121,7 +120,7 @@ const submit = () => {
           </p>
         </div>
 
-        <div class="flex items-center gap-4">
+        <div>
           <button
             type="submit"
             class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-8 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
@@ -130,20 +129,22 @@ const submit = () => {
           >
             Save
           </button>
+        </div>
 
-          <div
-            v-if="$page.props.flash.message"
-            class="text-sm text-gray-500 dark:text-gray-400 inline-flex items-center gap-x-1"
+        <div
+          v-if="$page.props.flash.message"
+          class="text-sm text-gray-500 dark:text-gray-400 inline-flex items-center gap-x-1"
+        >
+          <CopyToClipboard
+            :text-to-copy="$page.props.flash.message"
+            toast-msg="Tiny URL copied to clipboard."
+          />
+          <Link
+            :href="route('introduction')"
+            class="text-blue-600 dark:text-blue-500 cursor-pointer underline"
+            >{{ $page.props.flash.message }}</Link
           >
-            Alhamdulillah!
-            <CopyToClipboard :text-to-copy="$page.props.flash.message" />
-            <Link
-              :href="route('introduction')"
-              class="text-blue-600 dark:text-blue-500 cursor-pointer underline"
-              >{{ $page.props.flash.message }}</Link
-            >
-            is ready to use.
-          </div>
+          is ready to use.
         </div>
       </form>
     </div>

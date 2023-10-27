@@ -7,6 +7,9 @@ const props = defineProps({
   textToCopy: {
     type: String,
   },
+  toastMsg: {
+    type: String,
+  },
 });
 
 const showSuccessMsg = ref(false);
@@ -24,9 +27,7 @@ const copyToClipboard = async () => {
 
 <template>
   <IconClipboard classes="w-5 h-5 cursor-pointer" @click="copyToClipboard" />
-  <ToastNotification v-if="showSuccessMsg"
-    >Tiny URL copied to clipboard</ToastNotification
-  >
+  <ToastNotification v-if="showSuccessMsg">{{ toastMsg }}</ToastNotification>
 </template>
 
 <style scoped></style>
