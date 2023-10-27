@@ -176,8 +176,8 @@ const showingNavigationDropdown = ref(false);
             </a>
           </li>
           <li>
-            <a
-              href="#"
+            <Link
+              :href="route('trackers.tiny-urls.index')"
               class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
             >
               <img
@@ -185,8 +185,8 @@ const showingNavigationDropdown = ref(false);
                 src="/images/url-tracker.png"
                 alt="prayer-tracker"
               />
-              <span class="ml-3">URL Tracker</span>
-            </a>
+              <span class="ml-3">Tiny URL Tracker</span>
+            </Link>
           </li>
           <!-- <li>
             <a

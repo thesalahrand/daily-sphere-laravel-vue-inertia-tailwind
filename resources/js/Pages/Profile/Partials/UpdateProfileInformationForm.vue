@@ -44,7 +44,7 @@ const submit = () => {
 <template>
   <section>
     <div class="space-y-4 mb-6">
-      <h5 class="text-xl font-medium text-gray-900 dark:text-white">
+      <h5 class="text-xl font-semibold text-gray-900 dark:text-white">
         Profile Information
       </h5>
 

@@ -41,6 +41,9 @@ class HandleInertiaRequests extends Middleware
           'joined_in' => $request->user()->created_at->format('M d, Y'),
         ] : null,
       ],
+      'flash' => [
+        'message' => fn() => $request->session()->get('message')
+      ],
       'ziggy' => fn() => [
         ...(new Ziggy)->toArray(),
         'location' => $request->url(),

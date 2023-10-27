@@ -37,7 +37,7 @@ const updatePassword = () => {
   <section>
     <form @submit.prevent="updatePassword" class="max-w-xl space-y-6">
       <div>
-        <h5 class="text-xl font-medium text-gray-900 dark:text-white">
+        <h5 class="text-xl font-semibold text-gray-900 dark:text-white">
           Update Password
         </h5>
         <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
