@@ -5,16 +5,24 @@ import IconChevronRight from "@/Components/icons/IconChevronRight.vue";
 import InputError from "@/Components/InputError.vue";
 import IconArrowPath from "@/Components/icons/IconArrowPath.vue";
 import CopyToClipboard from "@/Components/CopyToClipboard.vue";
+import ToastNotification from "@/Components/ToastNotification.vue";
 import getRandomStr from "@/Utils/getRandomStr";
+import { ref } from "vue";
 
 const form = useForm({
   full_url: "",
   tiny_url: getRandomStr(6),
 });
 
+const showTinyUrlCreateSuccessMsg = ref(false);
+
 const submit = () => {
   form.post(route("trackers.tiny-urls.store"), {
-    onSuccess: () => form.reset("full_url"),
+    onSuccess: () => {
+      form.reset("full_url");
+      showTinyUrlCreateSuccessMsg.value = true;
+      setTimeout(() => (showTinyUrlCreateSuccessMsg.value = false), 3000);
+    },
   });
 };
 </script>
@@ -23,6 +31,10 @@ const submit = () => {
   <Head title="Create Tiny URL" />
 
   <AuthenticatedLayout>
+    <ToastNotification v-if="showTinyUrlCreateSuccessMsg"
+      >Tiny URL created successfully.</ToastNotification
+    >
+
     <nav class="flex mb-4" aria-label="Breadcrumb">
       <ol class="inline-flex items-center space-x-1 md:space-x-3">
         <li class="inline-flex items-center">

@@ -6,12 +6,16 @@ import InputError from "@/Components/InputError.vue";
 import IconArrowPath from "@/Components/icons/IconArrowPath.vue";
 import CopyToClipboard from "@/Components/CopyToClipboard.vue";
 import getRandomStr from "@/Utils/getRandomStr";
+import ToastNotification from "@/Components/ToastNotification.vue";
+import { ref } from "vue";
 
 const props = defineProps({
   tinyUrl: {
     type: Object,
   },
 });
+
+const showTinyUrlEditSuccessMsg = ref(false);
 
 const form = useForm({
   full_url: props.tinyUrl.full_url,
@@ -20,7 +24,13 @@ const form = useForm({
 
 const submit = () => {
   form.patch(
-    route("trackers.tiny-urls.update", { tiny_url: props.tinyUrl.id })
+    route("trackers.tiny-urls.update", { tiny_url: props.tinyUrl.id }),
+    {
+      onSuccess: () => {
+        showTinyUrlEditSuccessMsg.value = true;
+        setTimeout(() => (showTinyUrlEditSuccessMsg.value = false), 3000);
+      },
+    }
   );
 };
 </script>
@@ -29,6 +39,10 @@ const submit = () => {
   <Head title="Edit Tiny URL" />
 
   <AuthenticatedLayout>
+    <ToastNotification v-if="showTinyUrlEditSuccessMsg"
+      >Tiny URL updated successfully.</ToastNotification
+    >
+
     <nav class="flex mb-4" aria-label="Breadcrumb">
       <ol class="inline-flex items-center space-x-1 md:space-x-3">
         <li class="inline-flex items-center">

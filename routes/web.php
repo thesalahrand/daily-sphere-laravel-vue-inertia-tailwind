@@ -40,7 +40,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
   // Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
   Route::group(['prefix' => 'trackers', 'as' => 'trackers.'], function () {
-    Route::resource('tiny-urls', TinyUrlController::class);
+    Route::resource('tiny-urls', TinyUrlController::class)->except(['show']);
   });
 });
 

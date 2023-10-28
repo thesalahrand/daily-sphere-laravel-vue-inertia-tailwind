@@ -80,8 +80,13 @@ class TinyUrlController extends Controller
   /**
    * Remove the specified resource from storage.
    */
-  public function destroy(TinyUrl $tinyUrl)
+  public function destroy(TinyUrl $tinyUrl, Request $request, TinyUrlService $tinyUrlService)
   {
-    //
+    if ($tinyUrl->user_id != $request->user()->id)
+      abort('403');
+
+    $tinyUrlService->destroy($tinyUrl);
+
+    return back();
   }
 }
