@@ -43,4 +43,11 @@ class TinyUrlService
   {
     $tinyUrl->delete();
   }
+
+  public function getFullUrl(string $tiny_url): string
+  {
+    $tinyUrl = TinyUrl::where('tiny_url', $tiny_url)->firstOrFail();
+
+    return $tinyUrl->full_url;
+  }
 }

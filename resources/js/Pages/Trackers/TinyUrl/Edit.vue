@@ -115,8 +115,8 @@ const submit = () => {
             placeholder="e.g. https://github.com/thesalahrand/daily-sphere-laravel-vue-inertia-tailwind"
             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
             minlength="6"
-            maxlength="18"
-            pattern="[A-Za-z0-9_\-]{6,18}$"
+            maxlength="48"
+            pattern="^[A-Za-z0-9_\-]+$"
             required
           />
           <InputError class="mt-2" :message="form.errors.tiny_url" />
@@ -146,10 +146,10 @@ const submit = () => {
             :text-to-copy="$page.props.flash.message"
             toast-msg="Tiny URL copied to clipboard."
           />
-          <Link
-            :href="route('introduction')"
+          <a
+            :href="$page.props.flash.message"
             class="text-blue-600 dark:text-blue-500 cursor-pointer underline"
-            >{{ $page.props.flash.message }}</Link
+            >{{ $page.props.flash.message }}</a
           >
           is now updated.
         </div>

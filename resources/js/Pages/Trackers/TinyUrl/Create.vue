@@ -138,10 +138,10 @@ const submit = () => {
             :text-to-copy="$page.props.flash.message"
             toast-msg="Tiny URL copied to clipboard."
           />
-          <Link
-            :href="route('introduction')"
+          <a
+            :href="$page.props.flash.message"
             class="text-blue-600 dark:text-blue-500 cursor-pointer underline"
-            >{{ $page.props.flash.message }}</Link
+            >{{ $page.props.flash.message }}</a
           >
           is ready to use.
         </div>

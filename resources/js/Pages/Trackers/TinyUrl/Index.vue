@@ -141,10 +141,10 @@ const deleteTinyUrl = () => {
                   :text-to-copy="tinyUrl.tiny_url"
                   toast-msg="Tiny URL copied to clipboard."
                 />
-                <Link
-                  :href="route('introduction')"
+                <a
+                  :href="tinyUrl.tiny_url"
                   class="text-blue-600 dark:text-blue-500 cursor-pointer underline"
-                  >{{ tinyUrl.tiny_url }}</Link
+                  >{{ tinyUrl.tiny_url }}</a
                 >
               </div>
             </td>

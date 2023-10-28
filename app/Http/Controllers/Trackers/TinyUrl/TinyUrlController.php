@@ -7,6 +7,7 @@ use App\Http\Requests\Trackers\TinyUrl\StoreTinyUrlRequest;
 use App\Http\Requests\Trackers\TinyUrl\UpdateTinyUrlRequest;
 use App\Models\TinyUrl;
 use App\Services\Trackers\TinyUrl\TinyUrlService;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -16,7 +17,7 @@ class TinyUrlController extends Controller
   /**
    * Display a listing of the resource.
    */
-  public function index(Request $request, TinyUrlService $tinyUrlService)
+  public function index(Request $request, TinyUrlService $tinyUrlService): Response
   {
     $tinyUrls = $tinyUrlService->index($request->user());
 
@@ -36,7 +37,7 @@ class TinyUrlController extends Controller
   /**
    * Store a newly created resource in storage.
    */
-  public function store(StoreTinyUrlRequest $request, TinyUrlService $tinyUrlService)
+  public function store(StoreTinyUrlRequest $request, TinyUrlService $tinyUrlService): RedirectResponse
   {
     $usableTinyUrl = $tinyUrlService->store([...$request->validated(), 'user_id' => $request->user()->id]);
 
@@ -54,7 +55,7 @@ class TinyUrlController extends Controller
   /**
    * Show the form for editing the specified resource.
    */
-  public function edit(Request $request, TinyUrl $tinyUrl)
+  public function edit(Request $request, TinyUrl $tinyUrl): Response
   {
     if ($tinyUrl->user_id != $request->user()->id)
       abort('403');
@@ -67,7 +68,7 @@ class TinyUrlController extends Controller
   /**
    * Update the specified resource in storage.
    */
-  public function update(UpdateTinyUrlRequest $request, TinyUrl $tinyUrl, TinyUrlService $tinyUrlService)
+  public function update(UpdateTinyUrlRequest $request, TinyUrl $tinyUrl, TinyUrlService $tinyUrlService): RedirectResponse
   {
     if ($tinyUrl->user_id != $request->user()->id)
       abort('403');
@@ -80,7 +81,7 @@ class TinyUrlController extends Controller
   /**
    * Remove the specified resource from storage.
    */
-  public function destroy(TinyUrl $tinyUrl, Request $request, TinyUrlService $tinyUrlService)
+  public function destroy(TinyUrl $tinyUrl, Request $request, TinyUrlService $tinyUrlService): RedirectResponse
   {
     if ($tinyUrl->user_id != $request->user()->id)
       abort('403');
@@ -88,5 +89,12 @@ class TinyUrlController extends Controller
     $tinyUrlService->destroy($tinyUrl);
 
     return back();
+  }
+
+  public function redirect(string $tiny_url, TinyUrlService $tinyUrlService): RedirectResponse
+  {
+    $fullUrl = $tinyUrlService->getFullUrl($tiny_url);
+
+    return redirect()->to($fullUrl);
   }
 }

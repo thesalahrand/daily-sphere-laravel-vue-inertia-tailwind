@@ -42,6 +42,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
   Route::group(['prefix' => 'trackers', 'as' => 'trackers.'], function () {
     Route::resource('tiny-urls', TinyUrlController::class)->except(['show']);
   });
+
+  Route::get('/tu/{tiny_url}', [TinyUrlController::class, 'redirect'])->name('trackers.tiny_urls.redirect');
 });
 
 require __DIR__ . '/auth.php';
