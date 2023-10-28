@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Database\Seeders\PseudoNameSeeder;
+use Database\Seeders\TinyUrlSeeder;
 use Database\Seeders\UserSeeder;
 use Illuminate\Database\Seeder;
 
@@ -16,7 +17,8 @@ class DatabaseSeeder extends Seeder
   {
     $this->call([
       PseudoNameSeeder::class,
-      UserSeeder::class
+      UserSeeder::class,
+      TinyUrlSeeder::class
     ]);
   }
 }

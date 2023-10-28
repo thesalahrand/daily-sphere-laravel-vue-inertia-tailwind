@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -20,7 +21,7 @@ class TinyUrlFactory extends Factory
     return [
       'full_url' => fake()->url(),
       'tiny_url' => Str::random(6),
-      'user_id' => 4
+      'user_id' => User::inRandomOrder()->first()->id
     ];
   }
 }

@@ -7,20 +7,26 @@ import IconArrowPath from "@/Components/icons/IconArrowPath.vue";
 import CopyToClipboard from "@/Components/CopyToClipboard.vue";
 import getRandomStr from "@/Utils/getRandomStr";
 
+const props = defineProps({
+  tinyUrl: {
+    type: Object,
+  },
+});
+
 const form = useForm({
-  full_url: "",
-  tiny_url: getRandomStr(6),
+  full_url: props.tinyUrl.full_url,
+  tiny_url: props.tinyUrl.tiny_url,
 });
 
 const submit = () => {
-  form.post(route("trackers.tiny-urls.store"), {
-    onSuccess: () => form.reset("full_url"),
-  });
+  form.patch(
+    route("trackers.tiny-urls.update", { tiny_url: props.tinyUrl.id })
+  );
 };
 </script>
 
 <template>
-  <Head title="Create Tiny URL" />
+  <Head title="Edit Tiny URL" />
 
   <AuthenticatedLayout>
     <nav class="flex mb-4" aria-label="Breadcrumb">
@@ -37,9 +43,9 @@ const submit = () => {
           <div class="flex items-center">
             <IconChevronRight classes="w-4 h-4 text-gray-400 mr-1" />
             <Link
-              :href="route('trackers.tiny-urls.create')"
+              :href="route('trackers.tiny-urls.edit', tinyUrl.id)"
               class="ml-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ml-2 dark:text-gray-400 dark:hover:text-white"
-              >Create</Link
+              >Edit</Link
             >
           </div>
         </li>
@@ -51,7 +57,7 @@ const submit = () => {
     >
       <form @submit.prevent="submit" class="max-w-xl space-y-6">
         <h5 class="text-xl font-medium text-gray-900 dark:text-white">
-          Create a Tiny URL
+          Update Your Tiny URL
         </h5>
 
         <div>
@@ -95,8 +101,8 @@ const submit = () => {
             placeholder="e.g. https://github.com/thesalahrand/daily-sphere-laravel-vue-inertia-tailwind"
             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
             minlength="6"
-            maxlength="48"
-            pattern="^[A-Za-z0-9_\-]+$"
+            maxlength="18"
+            pattern="[A-Za-z0-9_\-]{6,18}$"
             required
           />
           <InputError class="mt-2" :message="form.errors.tiny_url" />
@@ -131,7 +137,7 @@ const submit = () => {
             class="text-blue-600 dark:text-blue-500 cursor-pointer underline"
             >{{ $page.props.flash.message }}</Link
           >
-          is ready to use.
+          is now updated.
         </div>
       </form>
     </div>

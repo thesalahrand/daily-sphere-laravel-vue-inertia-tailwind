@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Trackers\TinyUrl;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Trackers\TinyUrl\StoreTinyUrlRequest;
+use App\Http\Requests\Trackers\TinyUrl\UpdateTinyUrlRequest;
 use App\Models\TinyUrl;
 use App\Services\Trackers\TinyUrl\TinyUrlService;
 use Illuminate\Http\Request;
@@ -18,6 +19,7 @@ class TinyUrlController extends Controller
   public function index(Request $request, TinyUrlService $tinyUrlService)
   {
     $tinyUrls = $tinyUrlService->index($request->user());
+
     return Inertia::render("Trackers/TinyUrl/Index", [
       'tinyUrls' => $tinyUrls
     ]);
@@ -52,17 +54,27 @@ class TinyUrlController extends Controller
   /**
    * Show the form for editing the specified resource.
    */
-  public function edit(TinyUrl $tinyUrl)
+  public function edit(Request $request, TinyUrl $tinyUrl)
   {
-    //
+    if ($tinyUrl->user_id != $request->user()->id)
+      abort('403');
+
+    return Inertia::render("Trackers/TinyUrl/Edit", [
+      'tinyUrl' => $tinyUrl->only(['id', 'full_url', 'tiny_url'])
+    ]);
   }
 
   /**
    * Update the specified resource in storage.
    */
-  public function update(Request $request, TinyUrl $tinyUrl)
+  public function update(UpdateTinyUrlRequest $request, TinyUrl $tinyUrl, TinyUrlService $tinyUrlService)
   {
-    //
+    if ($tinyUrl->user_id != $request->user()->id)
+      abort('403');
+
+    $usableTinyUrl = $tinyUrlService->update($tinyUrl, $request->validated());
+
+    return back()->with('message', $usableTinyUrl);
   }
 
   /**

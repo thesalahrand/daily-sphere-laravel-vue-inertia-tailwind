@@ -12,6 +12,6 @@ class TinyUrlSeeder extends Seeder
    */
   public function run(): void
   {
-    TinyUrl::factory()->count(1000)->create();
+    TinyUrl::factory()->count(100)->create();
   }
 }
