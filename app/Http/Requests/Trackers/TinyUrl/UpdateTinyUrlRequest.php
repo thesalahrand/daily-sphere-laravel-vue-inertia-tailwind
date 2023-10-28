@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Trackers\TinyUrl;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateTinyUrlRequest extends FormRequest
 {
@@ -23,7 +24,7 @@ class UpdateTinyUrlRequest extends FormRequest
   {
     return [
       'full_url' => 'required|url',
-      'tiny_url' => 'required|min:6|max:48|regex:/^[A-Za-z0-9_-]+$/|unique:App\Models\TinyUrl'
+      'tiny_url' => ['required', 'min:6', 'max:48', 'regex:/^[A-Za-z0-9_-]+$/', Rule::unique('tiny_urls')->ignore($this->route('tiny_url')->id)]
     ];
   }
 
