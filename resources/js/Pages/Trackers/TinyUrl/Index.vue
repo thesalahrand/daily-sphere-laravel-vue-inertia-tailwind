@@ -5,14 +5,10 @@ import IconPlus from "@/Components/icons/IconPlus.vue";
 import IconQuestionMarkCircle from "@/Components/icons/IconQuestionMarkCircle.vue";
 import CopyToClipboard from "@/Components/CopyToClipboard.vue";
 import Pagination from "@/Components/Pagination.vue";
-import PopupModal from "@/Components/PopupModal.vue";
+import PopupModal from "@/Components/Modal/PopupModal.vue";
 import ToastNotification from "@/Components/ToastNotification.vue";
-import { ref, onMounted } from "vue";
-import { initModals } from "flowbite";
-
-onMounted(() => {
-  initModals();
-});
+import { ref } from "vue";
+import { Modal } from "flowbite";
 
 defineProps({
   tinyUrls: {
@@ -25,13 +21,23 @@ const tinyUrlDeleteForm = useForm({
 });
 
 const showTinyUrlDeleteSuccessMsg = ref(false);
+const tinyUrlDeleteModalVisibility = ref(false);
+
+const hideTinyUrlDeleteModal = () => {
+  console.log("hide Modal");
+  tinyUrlDeleteModalVisibility.value = false;
+};
+
+const showTinyUrlDeleteModal = () => {
+  tinyUrlDeleteModalVisibility.value = true;
+};
 
 const deleteTinyUrl = () => {
-  console.log("delete");
   tinyUrlDeleteForm.delete(
     route("trackers.tiny-urls.destroy", { tiny_url: tinyUrlDeleteForm.id }),
     {
       onSuccess: () => {
+        hideTinyUrlDeleteModal();
         showTinyUrlDeleteSuccessMsg.value = true;
         setTimeout(() => (showTinyUrlDeleteSuccessMsg.value = false), 3000);
       },
@@ -44,7 +50,10 @@ const deleteTinyUrl = () => {
   <Head title="Tiny URLs" />
 
   <AuthenticatedLayout>
-    <PopupModal>
+    <PopupModal
+      :show="tinyUrlDeleteModalVisibility"
+      @close="hideTinyUrlDeleteModal"
+    >
       <div class="p-6 text-center">
         <IconQuestionMarkCircle
           class="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200"
@@ -54,14 +63,13 @@ const deleteTinyUrl = () => {
         </h3>
         <button
           @click="deleteTinyUrl"
-          data-modal-hide="popup-modal"
           type="button"
           class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2"
         >
           Yes, I'm sure
         </button>
         <button
-          data-modal-hide="popup-modal"
+          @click="hideTinyUrlDeleteModal"
           type="button"
           class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600"
         >
@@ -162,17 +170,14 @@ const deleteTinyUrl = () => {
                 <button
                   @click="
                     () => {
-                      console.log('hi');
+                      showTinyUrlDeleteModal();
                       tinyUrlDeleteForm.id = tinyUrl.id;
                     }
                   "
-                  data-modal-target="popup-modal"
-                  data-modal-toggle="popup-modal"
                   type="button"
                   class="px-3 py-2 mr-2 text-xs font-medium text-center text-white bg-gray-800 rounded-lg hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-800"
                 >
                   Delete
-                  <!-- @click="tinyUrlDeleteForm.id = tinyUrl.id" -->
                 </button>
               </div>
             </td>
