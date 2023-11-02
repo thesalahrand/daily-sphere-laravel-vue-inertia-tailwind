@@ -36,6 +36,7 @@ const deleteTinyUrl = () => {
   tinyUrlDeleteForm.delete(
     route("trackers.tiny-urls.destroy", { tiny_url: tinyUrlDeleteForm.id }),
     {
+      preserveScroll: true,
       onSuccess: () => {
         hideTinyUrlDeleteModal();
         showTinyUrlDeleteSuccessMsg.value = true;

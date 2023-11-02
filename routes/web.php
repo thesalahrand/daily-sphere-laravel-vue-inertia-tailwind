@@ -27,23 +27,17 @@ use Inertia\Inertia;
 // });
 
 Route::middleware(['auth', 'verified'])->group(function () {
-  Route::get('/', function () {
-    return Inertia::render('Introduction');
-  })->name('introduction');
-
-  Route::get('/attributions', function () {
-    return Inertia::render('Attributions');
-  })->name('attributions');
+  Route::inertia('/', 'Introduction')->name('introduction');
+  Route::inertia('/attributions', 'Attributions')->name('attributions');
 
   Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
   Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
   // Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-  Route::group(['prefix' => 'trackers', 'as' => 'trackers.'], function () {
+  Route::prefix('trackers/')->name('trackers.')->group(function () {
+    Route::get('tiny-urls/redirect/{tiny_url:tiny_url}', [TinyUrlController::class, 'redirect'])->name('tiny_urls.redirect');
     Route::resource('tiny-urls', TinyUrlController::class)->except(['show']);
   });
-
-  Route::get('/tu/{tiny_url}', [TinyUrlController::class, 'redirect'])->name('trackers.tiny_urls.redirect');
 });
 
 require __DIR__ . '/auth.php';

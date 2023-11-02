@@ -4,19 +4,16 @@ namespace App\Services\Trackers\TinyUrl;
 
 use App\Models\TinyUrl;
 use App\Models\User;
-use Illuminate\Database\Query\Builder;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class TinyUrlService
 {
   public function index(User $authUser): LengthAwarePaginator
   {
-    $tinyUrls = TinyUrl::where('user_id', $authUser->id)->orderBy('updated_at', 'desc')->paginate(10)->through(fn($tinyUrl) => [
+    $tinyUrls = $authUser->tinyUrls()->orderBy('updated_at', 'desc')->paginate(10)->through(fn($tinyUrl) => [
       'id' => $tinyUrl->id,
       'full_url' => $tinyUrl->full_url,
-      'tiny_url' => config('app.url') . '/tu/' . $tinyUrl->tiny_url,
+      'tiny_url' => config('app.tiny_url') . '/' . $tinyUrl->tiny_url,
       'updated_at' => $tinyUrl->updated_at->format('M d, Y h:i A')
     ]);
 
@@ -26,7 +23,7 @@ class TinyUrlService
   public function store(array $validated): string
   {
     $tinyUrl = TinyUrl::create($validated);
-    $usableTinyUrl = config('app.url') . '/tu/' . $tinyUrl->tiny_url;
+    $usableTinyUrl = config('app.tiny_url') . '/' . $tinyUrl->tiny_url;
 
     return $usableTinyUrl;
   }
@@ -34,7 +31,7 @@ class TinyUrlService
   public function update(TinyUrl $tinyUrl, array $validated): string
   {
     $tinyUrl->update($validated);
-    $usableTinyUrl = config('app.url') . '/tu/' . $tinyUrl->tiny_url;
+    $usableTinyUrl = config('app.tiny_url') . '/' . $tinyUrl->tiny_url;
 
     return $usableTinyUrl;
   }
@@ -42,12 +39,5 @@ class TinyUrlService
   public function destroy(TinyUrl $tinyUrl): void
   {
     $tinyUrl->delete();
-  }
-
-  public function getFullUrl(string $tiny_url): string
-  {
-    $tinyUrl = TinyUrl::where('tiny_url', $tiny_url)->firstOrFail();
-
-    return $tinyUrl->full_url;
   }
 }
