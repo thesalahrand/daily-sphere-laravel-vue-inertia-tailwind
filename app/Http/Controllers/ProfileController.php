@@ -44,7 +44,7 @@ class ProfileController extends Controller
 
     $request->user()->save();
 
-    return Redirect::route('profile.edit');
+    return to_route('profile.edit');
   }
 
   /**
@@ -65,6 +65,6 @@ class ProfileController extends Controller
     $request->session()->invalidate();
     $request->session()->regenerateToken();
 
-    return Redirect::to('/');
+    return to_route('login');
   }
 }

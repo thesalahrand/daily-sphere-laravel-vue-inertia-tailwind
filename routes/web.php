@@ -32,7 +32,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
   Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
   Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-  // Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+  Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
   Route::prefix('trackers/')->name('trackers.')->group(function () {
     Route::get('tiny-urls/redirect/{tiny_url:tiny_url}', [TinyUrlController::class, 'redirect'])->name('tiny_urls.redirect');

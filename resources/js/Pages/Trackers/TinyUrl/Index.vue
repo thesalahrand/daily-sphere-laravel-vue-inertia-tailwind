@@ -24,7 +24,6 @@ const showTinyUrlDeleteSuccessMsg = ref(false);
 const tinyUrlDeleteModalVisibility = ref(false);
 
 const hideTinyUrlDeleteModal = () => {
-  console.log("hide Modal");
   tinyUrlDeleteModalVisibility.value = false;
 };
 

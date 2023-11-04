@@ -1,44 +1,111 @@
 <script setup>
-import DangerButton from '@/Components/DangerButton.vue';
-import InputError from '@/Components/InputError.vue';
-import InputLabel from '@/Components/InputLabel.vue';
-import Modal from '@/Components/Modal.vue';
-import SecondaryButton from '@/Components/SecondaryButton.vue';
-import TextInput from '@/Components/TextInput.vue';
-import { useForm } from '@inertiajs/vue3';
-import { nextTick, ref } from 'vue';
+import DangerButton from "@/Components/DangerButton.vue";
+import InputError from "@/Components/InputError.vue";
+import InputLabel from "@/Components/InputLabel.vue";
+import Modal from "@/Components/Modal.vue";
+import SecondaryButton from "@/Components/SecondaryButton.vue";
+import TextInput from "@/Components/TextInput.vue";
+import PopupModal from "@/Components/Modal/PopupModal.vue";
+import { router, useForm, usePage } from "@inertiajs/vue3";
+import { nextTick, ref, onUnmounted } from "vue";
 
-const confirmingUserDeletion = ref(false);
+const userDeleteModalVisibility = ref(false);
 const passwordInput = ref(null);
 
+const hideUserDeleteModal = () => {
+  userDeleteModalVisibility.value = false;
+};
+
+const showUserDeleteModal = () => {
+  userDeleteModalVisibility.value = true;
+
+  nextTick(() => passwordInput.value.focus());
+};
+
+const page = usePage();
 const form = useForm({
-    password: '',
+  password: "",
 });
 
-const confirmUserDeletion = () => {
-    confirmingUserDeletion.value = true;
-
-    nextTick(() => passwordInput.value.focus());
-};
-
 const deleteUser = () => {
-    form.delete(route('profile.destroy'), {
-        preserveScroll: true,
-        onSuccess: () => closeModal(),
-        onError: () => passwordInput.value.focus(),
-        onFinish: () => form.reset(),
-    });
-};
-
-const closeModal = () => {
-    confirmingUserDeletion.value = false;
-
-    form.reset();
+  form.delete(route("profile.destroy"), {
+    preserveScroll: true,
+    onSuccess: () => {
+      const modalBackdrop = document.querySelector("[modal-backdrop]");
+      modalBackdrop.remove();
+    },
+    onError: () => passwordInput.value.focus(),
+    onFinish: () => form.reset(),
+  });
 };
 </script>
 
 <template>
-    <section class="space-y-6">
+  <section>
+    <PopupModal :show="userDeleteModalVisibility" @close="hideUserDeleteModal">
+      <div class="px-6 py-6 lg:px-8">
+        <form class="space-y-6" @submit.prevent="deleteUser">
+          <div>
+            <h5 class="text-xl font-semibold text-gray-900 dark:text-white">
+              Delete Account
+            </h5>
+            <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
+              Once your account is deleted, all of its resources and data will
+              be permanently deleted.
+            </p>
+          </div>
+          <div>
+            <label
+              for="delete_user_password"
+              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >Your password</label
+            >
+            <input
+              type="password"
+              name="delete_user_password"
+              ref="passwordInput"
+              v-model="form.password"
+              id="delete_user_password"
+              placeholder="••••••••"
+              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+              required
+            />
+            <InputError class="mt-2" :message="form.errors.password" />
+          </div>
+
+          <button
+            type="submit"
+            class="w-full text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
+            :class="{ 'opacity-25': form.processing }"
+            :disabled="form.processing"
+          >
+            Delete Account
+          </button>
+        </form>
+      </div>
+    </PopupModal>
+
+    <div class="max-w-xl space-y-6">
+      <div>
+        <h5 class="text-xl font-semibold text-gray-900 dark:text-white">
+          Delete Account
+        </h5>
+        <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
+          Once your account is deleted, all of its resources and data will be
+          permanently deleted.
+        </p>
+      </div>
+
+      <button
+        type="button"
+        class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-8 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
+        @click="showUserDeleteModal"
+      >
+        Delete Account
+      </button>
+    </div>
+  </section>
+  <!-- <section class="space-y-6">
         <header>
             <h2 class="text-lg font-medium text-gray-900">Delete Account</h2>
 
@@ -91,5 +158,5 @@ const closeModal = () => {
                 </div>
             </div>
         </Modal>
-    </section>
+    </section> -->
 </template>

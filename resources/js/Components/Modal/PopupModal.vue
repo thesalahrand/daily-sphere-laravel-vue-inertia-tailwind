@@ -21,7 +21,9 @@ onMounted(() => {
 
 watch(
   () => props.show,
-  (newValue) => popupModal[newValue ? "show" : "hide"]()
+  (newValue) => {
+    popupModal[newValue ? "show" : "hide"]();
+  }
 );
 </script>
 
