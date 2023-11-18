@@ -55,9 +55,9 @@ return [
   |
   */
 
-  'url' => env('APP_URL', 'http://localhost'),
+  'url' => env('APP_URL', 'http://127.0.0.1:8000'),
 
-  'tiny_url' => env('TINY_APP_URL', 'http://localhost/trackers/tiny-urls/redirect'),
+  'tiny_url' => env('TINY_APP_URL', 'http://127.0.0.1:8000/trackers/tiny-urls/redirect'),
 
   'asset_url' => env('ASSET_URL'),
 
