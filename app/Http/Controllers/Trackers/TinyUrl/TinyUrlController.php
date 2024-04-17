@@ -91,8 +91,8 @@ class TinyUrlController extends Controller
     return back();
   }
 
-  public function redirect(TinyUrl $tiny_url, TinyUrlService $tinyUrlService): RedirectResponse
+  public function redirect(TinyUrl $tinyUrl, TinyUrlService $tinyUrlService): RedirectResponse
   {
-    return redirect()->to($tiny_url->full_url);
+    return redirect()->to($tinyUrl->full_url);
   }
 }

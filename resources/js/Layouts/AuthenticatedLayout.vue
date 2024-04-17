@@ -6,6 +6,8 @@ import DropdownLink from "@/Components/DropdownLink.vue";
 import NavLink from "@/Components/NavLink.vue";
 import ResponsiveNavLink from "@/Components/ResponsiveNavLink.vue";
 import { Link } from "@inertiajs/vue3";
+import { computed } from "vue";
+import { usePage } from "@inertiajs/vue3";
 import { onMounted } from "vue";
 import IconMenu from "@/Components/icons/IconMenu.vue";
 
@@ -29,6 +31,10 @@ onMounted(() => {
   initDropdowns();
   initDrawers();
 });
+
+const page = usePage();
+
+const user = computed(() => page.props.auth.user);
 
 const showingNavigationDropdown = ref(false);
 </script>
@@ -78,7 +84,7 @@ const showingNavigationDropdown = ref(false);
               <div class="flex items-center">
                 <span
                   class="font-medium text-blue-600 dark:text-blue-500 mr-3"
-                  >{{ $page.props.auth.user.pseudo_name }}</span
+                  >{{ user?.pseudo_name }}</span
                 >
                 <button
                   type="button"
@@ -90,9 +96,9 @@ const showingNavigationDropdown = ref(false);
                   <img
                     class="w-8 h-8 rounded-full object-cover"
                     :src="
-                      $page.props.auth.user.profile_pic
-                        ? `/storage/${$page.props.auth.user.profile_pic}`
-                        : `/images/${$page.props.auth.user.gender.toLowerCase()}.png`
+                      user?.profile_pic
+                        ? `/storage/${user.profile_pic}`
+                        : `/images/${user?.gender.toLowerCase()}.png`
                     "
                     alt="profile pic"
                   />

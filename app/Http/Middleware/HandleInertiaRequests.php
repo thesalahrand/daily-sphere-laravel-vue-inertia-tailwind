@@ -33,13 +33,13 @@ class HandleInertiaRequests extends Middleware
     return [
       ...parent::share($request),
       'auth' => [
-        'user' => $request->user() ? [
-          'pseudo_name_id' => $request->user()->pseudo_name_id,
-          'pseudo_name' => $request->user()->pseudoName->name,
-          'profile_pic' => $request->user()->profile_pic,
-          'gender' => $request->user()->pseudoName->gender,
-          'joined_in' => $request->user()->created_at->format('M d, Y'),
-        ] : null,
+        'user' => fn() => [
+          'pseudo_name_id' => $request?->user()?->pseudo_name_id,
+          'pseudo_name' => $request?->user()?->pseudoName->name,
+          'profile_pic' => $request?->user()?->profile_pic,
+          'gender' => $request?->user()?->pseudoName->gender,
+          'joined_in' => $request?->user()?->created_at->format('M d, Y'),
+        ],
       ],
       'flash' => [
         'message' => fn() => $request->session()->get('message')
