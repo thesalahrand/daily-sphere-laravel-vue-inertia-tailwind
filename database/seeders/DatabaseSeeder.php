@@ -18,7 +18,8 @@ class DatabaseSeeder extends Seeder
     $this->call([
       PseudoNameSeeder::class,
       UserSeeder::class,
-      TinyUrlSeeder::class
+      PrayerTrackerSeeder::class
+      // TinyUrlSeeder::class
     ]);
   }
 }
